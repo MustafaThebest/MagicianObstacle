@@ -5,8 +5,8 @@ using UnityEngine;
 public class LineDrawer : MonoBehaviour
 {
     public GameObject[] objects;
+    private Vector3[] linePositions; 
     private LineRenderer lineRenderer;
-    Vector3[] linePositions; 
     void Start()
     {
         lineRenderer = gameObject.AddComponent<LineRenderer>();
@@ -20,9 +20,13 @@ public class LineDrawer : MonoBehaviour
     
     }
 
+    void GetLinePositions()
+    {
+        //Getting positions from drawing
+    }
+
     void DrawLine()
     {
-        print(objects.Length);
         
         for(int i = 0; i < objects.Length; i++)
         {
