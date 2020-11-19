@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class LineDrawer : MonoBehaviour
 {
-    private int clicksPositionsCount;
+    private int clicksCount;
     private List<Vector3> clicksPositions;
     private LineRenderer lineRenderer;
     private bool hasTouched;
     void Start()
     {
-        clicksPositionsCount = 0;
+        clicksCount = 0;
         clicksPositions = new List<Vector3>();
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.widthMultiplier = 0.2f;
@@ -19,7 +19,7 @@ public class LineDrawer : MonoBehaviour
     void Update()
     {
         TouchDetector();
-        print(hasTouched);
+        print("Clicks Count:" + clicksCount);
         RegisterclicksPositions();
         DrawLineByTouch();
     }
@@ -41,23 +41,21 @@ public class LineDrawer : MonoBehaviour
             }
 
 #if UNITY_EDITOR
-            for (int i = 0; i < clicksPositionsCount; i++)
+            for (int i = 0; i < clicksCount; i++)
             {
-                lineRenderer.positionCount = clicksPositionsCount;
+                lineRenderer.positionCount = clicksCount;
                 lineRenderer.SetPositions(clicksPositions.ToArray());
-                print("YAY");
-
             }
 #endif
         }
     }
 
     void RegisterclicksPositions()
-    {   
+    {
         if (hasTouched)
         {
             Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            clicksPositionsCount++;
+            clicksCount++;
 
             clicksPositions.Add(new Vector3(position.x, position.y, 0));
         }
@@ -70,13 +68,15 @@ public class LineDrawer : MonoBehaviour
             hasTouched = true;
         }
 #if UNITY_EDITOR
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             hasTouched = true;
         }
 #endif
         else
         {
+            clicksCount = 0;
+            clicksPositions.Clear();
             hasTouched = false;
         }
     }
