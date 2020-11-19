@@ -75,7 +75,9 @@ public class LineDrawer : MonoBehaviour
             hasTouched = true;
         }
 #endif
-
-        hasTouched = false;
+        else
+        {
+            hasTouched = false;
+        }
     }
 }
