@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LineDrawer : MonoBehaviour
 {
     private int clicksCount;
     private List<Vector3> clicksPositions;
+    private List<Vector3> oldClicksPositions;
     private LineRenderer lineRenderer;
     private bool hasTouched;
+
+    int overLaps = 0;
+    int discrepancies = 0;
     void Start()
     {
         clicksCount = 0;
         clicksPositions = new List<Vector3>();
+        oldClicksPositions = new List<Vector3>();
         lineRenderer = gameObject.AddComponent<LineRenderer>();
         lineRenderer.widthMultiplier = 0.2f;
     }
@@ -19,9 +25,12 @@ public class LineDrawer : MonoBehaviour
     void Update()
     {
         TouchDetector();
-        print("Clicks Count:" + clicksCount);
         RegisterclicksPositions();
         DrawLineByTouch();
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            ShapeRecognition();
+        }
     }
 
     void DrawLineByTouch()
@@ -75,9 +84,41 @@ public class LineDrawer : MonoBehaviour
 #endif
         else
         {
+            for (int i = 0; i < clicksCount; i++)
+            {
+                oldClicksPositions.Add(clicksPositions[i]);
+            }
+            // print(oldClicksPositions.Count);
+            // print(clicksPositions.Count);
             clicksCount = 0;
             clicksPositions.Clear();
             hasTouched = false;
+        }
+    }
+
+    void ShapeRecognition()
+    {
+        for (int i = 0; i < oldClicksPositions.Count; i++)
+        {
+            if (oldClicksPositions.Contains(oldClicksPositions[i]))
+            {
+                overLaps++;
+            }
+            else
+            {
+                discrepancies++;
+
+            }
+        }
+        print("Overlaps: " + overLaps);
+        print("discrepancies: " + discrepancies);
+        if (overLaps > discrepancies)
+        {
+            Debug.Log("ODINAKOVI!");
+        }
+        else
+        {
+            Debug.Log("NEODINAKOVI!(");
         }
     }
 }
