@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 public class LineDrawer : MonoBehaviour
 {
     private int clicksCount;
@@ -100,7 +101,7 @@ public class LineDrawer : MonoBehaviour
     {
         for (int i = 0; i < oldClicksPositions.Count; i++)
         {
-            if (oldClicksPositions.Contains(oldClicksPositions[i]))
+            if (clicksPositions.Contains(oldClicksPositions[i]))
             {
                 overLaps++;
             }
@@ -120,5 +121,7 @@ public class LineDrawer : MonoBehaviour
         {
             Debug.Log("NEODINAKOVI!(");
         }
+        overLaps = 0;
+        discrepancies = 0;
     }
 }
